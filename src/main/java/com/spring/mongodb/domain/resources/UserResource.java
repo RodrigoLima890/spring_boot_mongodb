@@ -1,6 +1,7 @@
 package com.spring.mongodb.domain.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.spring.mongodb.domain.Post;
 import com.spring.mongodb.domain.User;
 import com.spring.mongodb.domain.service.UserService;
 import com.spring.mongodb.dto.UserDto;
@@ -59,6 +61,11 @@ public class UserResource {
 		user.setId(id);
 		user = service.update(user);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+	@GetMapping("/{id}/posts")
+	private ResponseEntity<List<Post>> findAllPostsById(@PathVariable String id){
+		User user = service.findById(id);
+		return ResponseEntity.ok().body(user.getPosts());
 	}
 }
 
